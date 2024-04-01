@@ -1,0 +1,128 @@
+@username=tommy
+@otherusername=haley
+@password=cs590pfw
+@superuser=bolitj01
+@csrf_token=ZGCLZweVPnEvRATX0VWVonyS6IknwwxnUsVV0cuRqRvYM1HlIDjwq1ZsINKtEQ7G
+
+
+
+### For testing only: get the CSRF token
+GET http://localhost:8000/user/get_csrf_token/ HTTP/1.1
+
+### Create regular user sending username and password via JSON
+POST http://localhost:8000/user/create_user/ HTTP/1.1
+Content-Type: application/json
+X-CSRFToken: {{csrf_token}}
+
+{
+    "username": "{{otherusername}}",
+    "password": "{{password}}"
+}
+
+### Delete regular user sending username via JSON
+DELETE http://localhost:8000/user/delete_user/ HTTP/1.1
+Content-Type: application/json
+X-CSRFToken: {{csrf_token}}
+
+
+{
+    "username": "{{username}}"
+}
+
+### Login user sending username and password via JSON
+POST http://localhost:8000/user/login/ HTTP/1.1
+Content-Type: application/json
+X-CSRFToken: {{csrf_token}}
+
+
+{
+    "username": "{{username}}",
+    "password": "{{password}}"
+}
+
+### Login other user sending username and password via JSON
+POST http://localhost:8000/user/login/ HTTP/1.1
+Content-Type: application/json
+X-CSRFToken: {{csrf_token}}
+    
+{
+    "username": "{{otherusername}}",
+    "password": "{{password}}"
+}
+
+### Logout user
+GET http://localhost:8000/user/logout/ HTTP/1.1
+X-CSRFToken: {{csrf_token}}
+
+### Check if user is logged in
+GET http://localhost:8000/user/is_logged_in/ HTTP/1.1
+X-CSRFToken: {{csrf_token}}
+
+
+# Interact via the DRF ModelViewSet #####################
+### Get all todos as JSON
+GET http://localhost:8000/todo/mv/todos/ HTTP/1.1
+X-CSRFToken: {{csrf_token}}
+
+
+### Get a specific todo as JSON
+GET http://localhost:8000/todo/mv/todos/Buy%20groceries/ HTTP/1.1
+X-CSRFToken: {{csrf_token}}
+
+
+### Create a todo sending title and description via JSON
+POST http://localhost:8000/todo/mv/todos/ HTTP/1.1
+Content-Type: application/json
+X-CSRFToken: {{csrf_token}}
+
+{
+    "title": "Buy groceries",
+    "description": "Milk, eggs, bread"
+}
+
+### Update a todo sending title and description via JSON
+PUT http://localhost:8000/todo/mv/todos/Buy%20groceries/ HTTP/1.1
+Content-Type: application/json
+X-CSRFToken: {{csrf_token}}
+
+{
+    "title": "Buy groceries",
+    "description": "French toast, bacon, syrup"
+}
+
+### Delete a todo
+DELETE http://localhost:8000/todo/mv/todos/Buy%20groceries/ HTTP/1.1
+X-CSRFToken: {{csrf_token}}
+
+###############################################
+
+#Interact via the DRF APIView #####################
+
+### Get a specific todo as JSON
+GET http://localhost:8000/todo/Buy%20groceries/ HTTP/1.1
+X-CSRFToken: {{csrf_token}}
+
+### Create a todo sending title and description via JSON
+POST http://localhost:8000/todo/create_todo/ HTTP/1.1
+Content-Type: application/json
+X-CSRFToken: {{csrf_token}}
+
+{
+    "title": "Finish HW",
+    "description": "HW5 Due in a few days!"
+}
+
+### Update a todo sending title and description via JSON
+PUT http://localhost:8000/todo/Buy%20groceries/ HTTP/1.1
+Content-Type: application/json
+X-CSRFToken: {{csrf_token}}
+
+{
+    "title": "Buy groceries",
+    "description": "French toast, bacon, syrup",
+    "user": "5"
+}
+
+### Delete a todo
+DELETE http://localhost:8000/todo/Buy%20groceries/ HTTP/1.1
+X-CSRFToken: {{csrf_token}}

@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "Launch Chrome for React Vite",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:5173",
+            "webRoot": "${fileDirname}"
+        },
+
+        {
+            "name": "Django runserver",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${fileDirname}",
+            "program": "manage.py",
+            "args": [
+                "runserver"
+            ],
+            "django": true,
+            "autoStartBrowser": false
+        },
+
+        {
+            "name": "Django Tests",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${fileDirname}",
+            "program": "manage.py",
+            "args": [
+                "test",
+            ],
+            "django": true
+        }
+    ]
+}
