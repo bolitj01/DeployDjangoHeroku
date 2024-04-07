@@ -95,6 +95,11 @@ STATICFILES_DIRS = [
 
 WSGI_APPLICATION = 'django_serve_react.wsgi.application'
 
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage", # For serving static files in production
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
