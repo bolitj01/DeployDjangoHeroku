@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/staticfiles/', // Specify the base path for app resources like JavaScript and CSS files
+  // base: '/staticfiles/', // Specify the base path for app resources like JavaScript and CSS files
 });
