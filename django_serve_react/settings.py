@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure--2^mdj0^jb=!ku2-o$z1w=#=zq)m#n=lvg7e-+wh6)htjo%v)t
 DEBUG = False # Time for production
 
 ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1',
-                 'pfwcs-deploy-django-71a40e3ba2d1.herokuapp.com/'] # Heroku app domain
+                 'pfwcs-deploy-django-71a40e3ba2d1.herokuapp.com'] # Heroku app domain
 
 
 # Application definition
