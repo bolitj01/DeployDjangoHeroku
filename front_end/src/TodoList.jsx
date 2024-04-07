@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosCSRF from './AxiosCSRF.js';
 import Todo from './Todo';
 import CreateTodo from './CreateTodo';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,7 @@ const TodoList = () => {
 
     const logout = async () => {
         try {
-            const response = await axios.get(
+            const response = await axiosCSRF.get(
                 '/api/user/logout/',
             );
             console.log('Logged out:', response.data);
@@ -27,7 +27,7 @@ const TodoList = () => {
         // Define the function to fetch todos
         const fetchTodos = async () => {
           try {
-            const response = await axios.get('/api/todo/mv/todos/');
+            const response = await axiosCSRF.get('/api/todo/mv/todos/');
             console.log('Todos fetched:', response.data);
             setTodos(response.data); // Assuming the backend returns an array of todos
           } catch (error) {
@@ -45,7 +45,7 @@ const TodoList = () => {
 
     const deleteTodo = async (title) => {
         try {
-            const response = await axios.delete(
+            const response = await axiosCSRF.delete(
                 `/api/todo/mv/todos/${title}/`,
             );
             console.log('Todo deleted.');
@@ -63,7 +63,7 @@ const TodoList = () => {
         const todo = todos.find(todo => todo.title === title);
         const updatedTodo = { ...todo, completed: !todo.completed };
         try {
-            const response = await axios.put(
+            const response = await axiosCSRF.put(
                 `/api/todo/toggle_completed/`,
                 updatedTodo,
             );
@@ -76,12 +76,13 @@ const TodoList = () => {
 
     return (
         <>
-            <button onClick={logout}>Logout</button>
+            <button onClick={logout} data-testid="logout">Logout</button>
             <CreateTodo addTodo={addTodo}/>
             <div>
                 <h2>Todo List</h2>
                 {todos.map(todo =>
                         <Todo
+                            data-testid={`todo-${todo.id}`}
                             key={todo.id}
                             title={todo.title}
                             description={todo.description}

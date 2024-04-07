@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import axiosCSRF from './AxiosCSRF.js';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
@@ -19,7 +19,7 @@ const Register = () => {
         e.preventDefault();
         console.log('Registering user', userData);
         try {
-            const response = await axios.post(
+            const response = await axiosCSRF.post(
                 '/api/user/create_user/',
                 userData
             );

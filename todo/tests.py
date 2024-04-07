@@ -139,14 +139,15 @@ class TodoViewTests(TestCase):
         })
 
         # Update a Todo - make sure to set content_type='application/json'
-        response = self.client.put(reverse('todo-detail', args=[self.test_title]), data, content_type='application/json')
+        response = self.client.put(reverse('todo-detail', 
+                    args=[self.test_title]), data, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        
+
         # Get the updated Todo - todo-detail GET
         response = self.client.get(reverse('todo-detail', args=[self.test_title]))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['description'], 'Updated Description')
-        
+
         # Delete a Todo - todo-detail DELETE
         response = self.client.delete(reverse('todo-detail', args=[self.test_title]))
         self.assertEqual(response.status_code, 204)

@@ -6,10 +6,15 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.middleware.csrf import get_token
 
-# Get CSRF token for testing only
+# Get CSRF token, for testing only
 class GetCSRFToken(APIView):
     def get(self, request, format=None):
         return Response(get_token(request))
+    
+# Get session ID, for testing only
+class GetSessionID(APIView):
+    def get(self, request, format=None):
+        return Response(request.session.session_key)
 
 class CreateUser(APIView):
     # Allow any user (authenticated or not) to access this URL

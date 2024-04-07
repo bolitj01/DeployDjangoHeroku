@@ -1,0 +1,17 @@
+config:
+  target: 'http://localhost'
+  phases:
+    - duration: 60
+      arrivalRate: 1
+  processor: "./csrfProcessor.cjs"  # Path to your JavaScript preprocessor
+scenarios:
+  - name: "Create users"
+    beforeRequest: "fetchCsrfToken"  # Fetch CSRF token before making a request
+    flow:
+      - post:
+          url: "/api/user/create_user"
+          json:
+            username: "testuser{{ $loopCount }}"
+            password: "password"
+          headers:
+            X-CSRFToken: "{{ csrfToken }}"  # Use the CSRF token

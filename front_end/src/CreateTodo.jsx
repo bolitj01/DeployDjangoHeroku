@@ -1,4 +1,4 @@
-import axios from "axios"
+import axiosCSRF from "./AxiosCSRF.js"
 import { useRef } from "react"
 
 const CreateTodo = ({addTodo}) => {
@@ -14,7 +14,7 @@ const CreateTodo = ({addTodo}) => {
             completed: false
         }
         try {
-            const response = await axios.post(
+            const response = await axiosCSRF.post(
                 '/api/todo/create_todo/',
                 newTodo,
             )

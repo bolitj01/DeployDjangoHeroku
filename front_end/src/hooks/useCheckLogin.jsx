@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosCSRF from '../AxiosCSRF.js';
 
 export const useCheckLogin = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -8,7 +8,7 @@ export const useCheckLogin = () => {
     useEffect(() => {
         const checkLoginStatus = async () => {
             try {
-                const response = await axios.get('/api/user/is_logged_in/');
+                const response = await axiosCSRF.get('/api/user/is_logged_in/');
                 setIsLoggedIn(response.data.is_logged_in); // Assuming the backend sends this structure
                 console.log('Login status:', response.data);
             } catch (error) {

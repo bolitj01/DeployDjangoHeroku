@@ -1,11 +1,8 @@
 import { useState } from 'react';
-import axios from 'axios';
+import axiosCSRF from './AxiosCSRF.js';
 import { Link, useNavigate } from 'react-router-dom';
 
-
 const Login = () => {
-
-    const csrfToken = useCSRFToken();
 
     const navigate = useNavigate();
 
@@ -21,8 +18,8 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log('Logging in user', loginData, csrfToken);
-            const response = await axios.post(
+            console.log('Logging in user', loginData);
+            const response = await axiosCSRF.post(
                 '/api/user/login/',
                 loginData
             );

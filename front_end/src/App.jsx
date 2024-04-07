@@ -13,15 +13,13 @@ function App() {
   }
 
   return (
-    // <CSRFTokenProvider>
-      <Router>
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={isLoggedIn ? <TodoList /> : <Navigate to="/login" />} />
-        </Routes>
-      </Router>
-    // </CSRFTokenProvider>
+    <Router>
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={isLoggedIn ? <TodoList /> : <Navigate to="/login" />} />
+      </Routes>
+    </Router>
   );
 }
 

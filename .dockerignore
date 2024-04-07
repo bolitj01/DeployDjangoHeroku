@@ -253,4 +253,4 @@ dmypy.json
 
 venv/
 
-**/staticfiles/
+# **/staticfiles/
