@@ -33,7 +33,7 @@ jobs:
     - name: Start Django app
       run: |
         python manage.py migrate
-        gunicorn myproject.wsgi:application --bind 0.0.0.0:8000 &
+        gunicorn django_serve_react.wsgi:application --bind 0.0.0.0:8000 &
       env:
         DJANGO_SETTINGS_MODULE: django_serve_react.settings
 
