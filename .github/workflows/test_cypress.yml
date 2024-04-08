@@ -25,7 +25,10 @@ jobs:
         node-version: '20'
 
     - name: Install Cypress dependencies
-      run: npm install
+      run: |
+        cd front_end
+        ls
+        npm install
 
     - name: Start Django app
       run: |
