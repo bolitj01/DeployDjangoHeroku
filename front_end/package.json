@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "test_cypress": "cypress run",
+    "test_locust": "locust -f locustfile.py --headless --host=http://localhost:8000",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
