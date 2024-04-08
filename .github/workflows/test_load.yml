@@ -1,0 +1,47 @@
+name: Locust Load Test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12.2'
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Install Node.js for Cypress
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+
+    - name: Install Cypress dependencies
+      run: |
+        cd front_end
+        npm install
+        ls
+
+    - name: Start Django app
+      run: |
+        python manage.py migrate
+        python manage.py collectstatic --noinput
+        gunicorn django_serve_react.wsgi:application --bind 0.0.0.0:8000 &
+      env:
+        DJANGO_SETTINGS_MODULE: django_serve_react.settings
+
+    - name: Run Locust Tests
+      run: |
+        locust -f ./load_test/load_users.py --headless -u 10 -r 1 --run-time 30s
+        locust -f ./load_test/load_todos.py --headless -u 10 -r 1 --run-time 30s
+      env:
+        LOCUST_HOST: http://localhost:8000
+      
