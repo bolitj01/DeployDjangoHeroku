@@ -27,8 +27,8 @@ jobs:
     - name: Install Cypress dependencies
       run: |
         cd front_end
-        ls
         npm install
+        ls
 
     - name: Start Django app
       run: |
@@ -43,3 +43,7 @@ jobs:
       with:
         start: npm run test_cypress
         working-directory: ./front_end
+        wait-on: 'http://localhost:8000'
+        headless: true
+        config-file: cypress.config.js
+        
