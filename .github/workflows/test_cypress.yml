@@ -41,7 +41,6 @@ jobs:
     - name: Run Cypress Tests
       uses: cypress-io/github-action@v2
       with:
-        start: npm run test_cypress
         working-directory: ./front_end
         wait-on: 'http://localhost:8000'
         headless: true
