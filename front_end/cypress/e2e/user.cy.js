@@ -4,9 +4,11 @@ describe('User Tests', () => {
   const test_username = faker.internet.userName();
   const test_password = faker.internet.password();
 
+  const HOME_URL = 'http://localhost:8000';
+
   // Go to localhost before each test
   beforeEach(() => {
-    cy.visit('http://localhost')
+    cy.visit(HOME_URL)
   })
 
   it('user register', () => {
@@ -32,7 +34,7 @@ describe('User Tests', () => {
     cy.wait('@loginRequest').then((interception) => {
       expect(interception.response.statusCode).to.eq(200)
     })
-    cy.visit('http://localhost')
+    cy.visit(HOME_URL)
     cy.contains("Todo List")
   })
 
@@ -50,7 +52,7 @@ describe('User Tests', () => {
     })
     //Intercept home page request
     cy.intercept('GET', '/').as('homeRequest');
-    cy.visit('http://localhost')
+    cy.visit(HOME_URL)
     cy.wait('@homeRequest')
     cy.get('button[data-testid="logout"]').click()
     //Check Login text present

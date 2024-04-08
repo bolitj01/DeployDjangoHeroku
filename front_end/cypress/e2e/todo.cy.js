@@ -7,12 +7,14 @@ describe('Todo Tests', () => {
   const test_title = faker.lorem.words(4);
   const test_description = faker.lorem.words(10);
 
+  const HOME_URL = 'http://localhost:8000';
+
   //Before all tests once
   before(() => {
     // Intercept the create user request
     cy.intercept('POST', '/api/user/create_user').as('createUserRequest');
 
-    cy.visit('http://localhost')
+    cy.visit(HOME_URL)
     //Register a user
     cy.get('a[href="/register"]').click()
     cy.get('input[name="username"]').type(test_username)
@@ -32,7 +34,7 @@ describe('Todo Tests', () => {
     cy.session('userSession', () => {
       //Intercept the login request
       cy.intercept('POST', '/api/user/login').as('loginRequest');
-      cy.visit('http://localhost')
+      cy.visit(HOME_URL)
       //Login the user
       cy.get('input[name="username"]').type(test_username)
       cy.get('input[name="password"]').type(test_password)
@@ -42,7 +44,7 @@ describe('Todo Tests', () => {
         expect(interception.response.statusCode).to.eq(200)
       })
     })
-    cy.visit('http://localhost')
+    cy.visit(HOME_URL)
   })
 
   it('creates a todo', () => {
