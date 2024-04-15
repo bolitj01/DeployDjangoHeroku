@@ -22,11 +22,29 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure--2^mdj0^jb=!ku2-o$z1w=#=zq)m#n=lvg7e-+wh6)htjo%v)t'
 
+# # Get secret key from Google Cloud Secret Manager
+# from google.cloud import secretmanager
+
+# def access_secret_version(secret_id):
+#     """
+#     Access a secret version in Secret Manager.
+#     """
+#     client = secretmanager.SecretManagerServiceClient()
+#     project_id = 'django-gae-pfw'
+#     name = f"projects/{project_id}/secrets/{secret_id}/versions/latest"
+#     response = client.access_secret_version(name=name)
+#     return response.payload.data.decode('UTF-8')
+
+# SECRET_KEY = access_secret_version('SECRET_KEY')
+
+# print(f"SECRET_KEY: {SECRET_KEY}")
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False # Time for production
 
 ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1',
-                 'pfwcs-deploy-django-71a40e3ba2d1.herokuapp.com'] # Heroku app domain
+                 'pfwcs-deploy-django-71a40e3ba2d1.herokuapp.com', # Heroku app domain
+                 'django-gae-pfw.uc.r.appspot.com'] # Google App Engine domain
 
 
 # Application definition
@@ -57,11 +75,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# If your frontend and backend run on different ports on localhost:
-# CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
+# Google Cloud and Heroku should be trusted origins
+CSRF_TRUSTED_ORIGINS = [
+    'https://pfwcs-deploy-django-71a40e3ba2d1.herokuapp.com', 
+    'https://django-gae-pfw.uc.r.appspot.com'
+]
 
 # CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:5173',  # Allow React to connect to Django
+#     'https://pfwcs-deploy-django-71a40e3ba2d1.herokuapp.com',
+#     'https://django-gae-pfw.uc.r.appspot.com'
 # ]
 
 # CORS_ALLOW_CREDENTIALS = True
@@ -105,9 +127,19 @@ STORAGES = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    # Now using Google Cloud PostgreSQL
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': '/cloudsql/django-gae-pfw:us-central1:django-gae-pfw',
+        # 'HOST': '127.0.0.1', # Testing locally with Cloud SQL Proxy
+        'USER': 'pfw_student',
+        'PASSWORD': 'cs537pfw',
+        'NAME': 'postgres',
+        'PORT': '5432',
     }
 }
 
@@ -156,3 +188,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
+
+
